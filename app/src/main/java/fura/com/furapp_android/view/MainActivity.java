@@ -1,7 +1,9 @@
-package fura.com.furapp_android;
+package fura.com.furapp_android.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import fura.com.furapp_android.R;
 
 public class MainActivity extends AppCompatActivity {
 
