@@ -39,5 +39,5 @@ output.json #Since Android Studio 3.0
 obj/
 .externalNativeBuild
 
-#FIrebase
-google-services.json
+#Firebase
+app/google-services.json
