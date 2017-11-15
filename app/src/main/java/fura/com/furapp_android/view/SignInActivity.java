@@ -13,7 +13,7 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_in);
 
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder()
@@ -23,4 +23,5 @@ public class SignInActivity extends AppCompatActivity {
                 ).build(),
                 RC_SIGN_IN);
     }
+
 }
