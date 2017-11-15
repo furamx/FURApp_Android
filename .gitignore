@@ -38,3 +38,6 @@ output.json #Since Android Studio 3.0
 #NDK
 obj/
 .externalNativeBuild
+
+#FIrebase
+google-services.json
