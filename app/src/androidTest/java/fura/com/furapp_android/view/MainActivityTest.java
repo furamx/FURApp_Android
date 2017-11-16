@@ -28,7 +28,7 @@ public class MainActivityTest {
     public void SetUp(){
         MainActivityRule.getActivity();
     }
-    @Test
+    /*@Test
     public void TestButtonGoToSignInActivity(){
         onView(withId(R.id.btn_access_sign_in)).perform(click());
         intended(hasComponent(SignInActivity.class.getName()));
@@ -36,5 +36,5 @@ public class MainActivityTest {
     @Test
     public void TestButonLogInIsDisplayed(){
         onView(withId(R.id.btn_access_sign_in)).check(matches((isDisplayed())));
-    }
+    }*/
 }
