@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <Eventents Cards -->
+    <!-- Events Cards -->
     <style name="EventCard_Title">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">16dp</item>
