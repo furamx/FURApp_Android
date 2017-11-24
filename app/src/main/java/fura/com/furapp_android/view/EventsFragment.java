@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import fura.com.furapp_android.R;
 
 public class EventsFragment extends Fragment {

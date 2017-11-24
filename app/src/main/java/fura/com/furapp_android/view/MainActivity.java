@@ -5,10 +5,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import fura.com.furapp_android.R;
+import fura.com.furapp_android.model.FacebookRequest;
 
 public class MainActivity extends AppCompatActivity implements
     EventsFragment.OnFragmentInteractionListener,
@@ -37,6 +39,13 @@ public class MainActivity extends AppCompatActivity implements
         fragmentTransaction.add(R.id.fragment_bottom_info,bottomMenuFragment,"bottom_menu_tag");
         //Make changes
         fragmentTransaction.commit();
+        FacebookRequest.GetEventsFromFacebook();
+        /*try {
+            FacebookRequest.GetEventsFromFacebook();
+        }
+        catch (Exception e){
+            Toast.makeText(this, "¡Ups! No pudimos recuperar los eventos", Toast.LENGTH_LONG).show();
+        }*/
     }
 
     @Override
