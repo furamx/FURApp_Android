@@ -39,13 +39,6 @@ public class MainActivity extends AppCompatActivity implements
         fragmentTransaction.add(R.id.fragment_bottom_info,bottomMenuFragment,"bottom_menu_tag");
         //Make changes
         fragmentTransaction.commit();
-        FacebookRequest.GetEventsFromFacebook();
-        /*try {
-            FacebookRequest.GetEventsFromFacebook();
-        }
-        catch (Exception e){
-            Toast.makeText(this, "¡Ups! No pudimos recuperar los eventos", Toast.LENGTH_LONG).show();
-        }*/
     }
 
     @Override
