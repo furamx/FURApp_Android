@@ -1,0 +1,6 @@
+<resources>
+    <!-- Root event card margins -->
+    <dimen name="event_card_margin">8dp</dimen>
+    <!-- Root event details margins -->
+    <dimen name="event_details_margin">5dp</dimen>
+</resources>
