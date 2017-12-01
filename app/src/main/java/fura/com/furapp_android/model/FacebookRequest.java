@@ -34,4 +34,26 @@ public class FacebookRequest {
                     }
             ).executeAsync();
     }
+
+    // Graph method to attend an event on Facebook.
+    public static void AttendEventFromFacebook(final String eventId) {
+
+        AccessToken accessToken=new AccessToken("EAAFZCyLWsVDYBAJYlmthkYIQmqZBeuNu6J1TkK79ulZBBZCYMfqIhEeQuPsV0cOe3ovWACMxZC2cjfVGRqQFtoMNdRDB1iDWl8ERap02WNcfHZAzylYErxx0ZCDvTuDB7vSD8nSU8auopFwUxZCZBUBgW5YB3orRKZAVoZD","421974994867254","10214004472684462",null,null,null,null,null);
+        //make the API call
+            new GraphRequest(
+                    accessToken,
+                    "/" + eventId + "/attending",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        @Override
+                        public void onCompleted(GraphResponse response) {
+                            //Code
+                            JSONObject object = response.getJSONObject();
+                        }
+                    }
+            ).executeAsync();
+
+
+    }
 }

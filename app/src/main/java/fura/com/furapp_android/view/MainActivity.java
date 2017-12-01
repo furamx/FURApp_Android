@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import fura.com.furapp_android.R;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements
     BottomLoginFragment.OnFragmentInteractionListener {
 
     FrameLayout bottomMenuFragmentLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

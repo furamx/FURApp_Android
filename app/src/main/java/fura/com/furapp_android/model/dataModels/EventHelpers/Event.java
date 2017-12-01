@@ -9,11 +9,21 @@ import java.util.Date;
  */
 
 public class Event {
+    // Id parameter for the attending function.
+    private String id;
     private String description;
     private String end_time;
     private String name;
     private Place place;
     private String start_time;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;
