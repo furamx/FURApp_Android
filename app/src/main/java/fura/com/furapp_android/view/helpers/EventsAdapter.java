@@ -7,10 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import fura.com.furapp_android.R;
+import fura.com.furapp_android.domain.StringFormater;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
 
 /**
@@ -54,14 +58,21 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             //Gets the object to show
             Event event = eventList.get(position);
             //Set the event properties in the view
-            //cover
-            holder.name.setText(event.getName());
-            holder.city.setText(event.getPlace().getLocation().getCity());
-            holder.start_time.setText(event.getStart_time());
-            holder.date.setText(event.getStart_date());
-            holder.location.setText(event.getPlace().getName());
+            if(event.getCover()!=null)
+                Picasso.with(context).load(event.getCover().getSource()).into(holder.cover);
+            if(event.getName()!=null)
+                holder.name.setText(event.getName());
+            if(event.getPlace().getLocation() !=null)
+                holder.city.setText(event.getPlace().getLocation().getCity());
+            if(event.getStart_time()!=null)
+                holder.start_time.setText(StringFormater.ToHour(event.getStart_time()));
+            if(event.getPlace().getName()!=null)
+                holder.location.setText(event.getPlace().getName());
+            if(event.getStart_time()!=null)
+                holder.date.setText(StringFormater.ToDate(event.getStart_time()));
+        } catch (Exception e) {
+            //e.printStackTrace();
         }
-        catch (Exception e){ }
     }
 
     @Override

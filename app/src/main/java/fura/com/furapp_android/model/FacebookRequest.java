@@ -1,5 +1,8 @@
 package fura.com.furapp_android.model;
 
+import android.os.Bundle;
+import android.widget.Toast;
+
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -18,20 +21,26 @@ import fura.com.furapp_android.view.EventsFragment;
 
 public class FacebookRequest {
     public static void GetEventsFromFacebook(final EventsPresenter eventsPresenter){
+        Bundle bundle_parameters=new Bundle();
+        bundle_parameters.putString("fields","cover,description,end_time,name,place,start_time,is_canceled,is_draft");
         AccessToken accessToken=new AccessToken("EAAFZCyLWsVDYBAJYlmthkYIQmqZBeuNu6J1TkK79ulZBBZCYMfqIhEeQuPsV0cOe3ovWACMxZC2cjfVGRqQFtoMNdRDB1iDWl8ERap02WNcfHZAzylYErxx0ZCDvTuDB7vSD8nSU8auopFwUxZCZBUBgW5YB3orRKZAVoZD","421974994867254","10214004472684462",null,null,null,null,null);
         //make the API call
+        try {
             new GraphRequest(
                     accessToken,
                     "/681255215248937/events",
-                    null,
+                    bundle_parameters,
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
                         public void onCompleted(GraphResponse response) {
                             JSONObject object = response.getJSONObject();
-                            EventRoot eventRoot= new Gson().fromJson(object.toString(), EventRoot.class);
+                            EventRoot eventRoot = new Gson().fromJson(object.toString(), EventRoot.class);
                             eventsPresenter.SetEvents(eventRoot);
                         }
                     }
             ).executeAsync();
+        }
+        catch (Exception e){
+        }
     }
 }

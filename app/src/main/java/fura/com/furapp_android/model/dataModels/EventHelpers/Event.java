@@ -14,6 +14,9 @@ public class Event {
     private String name;
     private Place place;
     private String start_time;
+    private Cover cover;
+    private boolean is_canceled;
+    private boolean is_draft;
 
     public String getDescription() {
         return description;
@@ -47,40 +50,33 @@ public class Event {
         this.place = place;
     }
 
-    public String getStart_time() throws ParseException {
-        /*
-        * String date = "2014-11-25 14:30";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:MM");
-        Date testDate = null;
-        try {
-            testDate = sdf.parse(date);
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd,yyyy hh:mm a");
-        String newFormat = formatter.format(testDate);
-        System.out.println(".....Date..."+newFormat);
-        * */
-        /*SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        Date date;
-        try{
-            dateFormat.parse(start_time);
-        } catch (Exception e){}
-
-        SimpleDateFormat formatter=new SimpleDateFormat("dd MMMMM, yyyy");
-        String newFormat=formatter.format(date);
-        return newFormat;*/
-        return null;
-    }
+    public String getStart_time(){return start_time;}
 
     public void setStart_time(String start_time) {
         this.start_time = start_time;
     }
 
-    //
-    public String getStart_date() throws ParseException {
-        String date= DateFormat.getDateInstance(DateFormat.MEDIUM).format(start_time);
-        return date;
+    public boolean isIs_canceled() {
+        return is_canceled;
     }
 
+    public void setIs_canceled(boolean is_canceled) {
+        this.is_canceled = is_canceled;
+    }
+
+    public boolean isIs_draft() {
+        return is_draft;
+    }
+
+    public void setIs_draft(boolean is_draft) {
+        this.is_draft = is_draft;
+    }
+
+    public Cover getCover() {
+        return cover;
+    }
+
+    public void setCover(Cover cover) {
+        this.cover = cover;
+    }
 }
