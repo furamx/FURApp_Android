@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
-
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -18,7 +16,6 @@ public class MainActivity extends AppCompatActivity implements
     EventsFragment.OnFragmentInteractionListener,
     BottomLoginFragment.OnFragmentInteractionListener {
 
-    FrameLayout bottomMenuFragmentLayout;
 
     //Context variable for the Facebook token.
     public static Context contextMain;

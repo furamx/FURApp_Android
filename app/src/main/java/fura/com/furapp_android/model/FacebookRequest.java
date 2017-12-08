@@ -23,11 +23,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import fura.com.furapp_android.R;
 import fura.com.furapp_android.model.dataModels.EventHelpers.EventRoot;
 import fura.com.furapp_android.presenter.EventsPresenter;
-import fura.com.furapp_android.view.EventsFragment;
 import fura.com.furapp_android.view.MainActivity;
-import fura.com.furapp_android.view.SignInActivity;
 
 /**
  * Created by ramon on 22/11/17.
@@ -85,12 +84,11 @@ public class FacebookRequest {
                                     if (objJson.getString("id").equals(strIdUser)) {
 
                                         btnEvent.setBackgroundColor(Color.GREEN);
-                                        btnEvent.setText("Seleccionado");
+                                        btnEvent.setText(R.string.attend_button_check);
                                         btnEvent.setEnabled(false);
 
                                         break;
                                     }
-
                                 }
 
 

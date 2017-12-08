@@ -153,14 +153,19 @@
                     android:text="Compartir"
                     android:layout_weight="1"/>
                 <!-- Attend -->
-                <Button
-                    android:id="@+id/btn_attend_event_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:textColor="@color/colorAccent"
-                    android:text="Asistir"
-                    android:layout_weight="1"/>
+                <LinearLayout
+                    android:id="@+id/attend_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btn_attend_event_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:textColor="@color/colorAccent"
+                        android:text="Asistir"
+                        android:layout_weight="1"/>
+                </LinearLayout>
                 <!-- Expand to view event description -->
                 <ImageButton
                     android:id="@+id/btn_drop_down_event_card"

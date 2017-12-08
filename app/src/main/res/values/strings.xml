@@ -13,6 +13,7 @@
     <string name="unknown_sign_in_response">Error desconocido</string>
 
     <!-- ATTEND EVENT -->
+    <string name="attend_button_check">&#xf00c;</string>
     <string name="attend_event_warning">¿Desea asistir al evento seleccionado?</string>
     <string name="attend_event_login">No ha iniciado sesión en Facebook, ¿desea iniciar en Facebook para asistir al evento?</string>
 

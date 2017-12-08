@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +22,7 @@ import java.util.List;
 import fura.com.furapp_android.R;
 import fura.com.furapp_android.model.FacebookRequest;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
+import fura.com.furapp_android.view.FontManager;
 import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.SignInActivity;
 
@@ -33,6 +36,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
     public List<Event> eventList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
+
+        //LinearLayout for FontAwesome.
+        public LinearLayout attend_layout;
+
         // Create the view's objects
         public ImageView cover;
         public TextView name, city, date, start_time, location, idEvent;
@@ -40,6 +47,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
         public Button _btn_attend;
         public MyViewHolder(View view){
             super(view);
+            //LinearLayout for FontAwesome.
+            attend_layout = view.findViewById(R.id.attend_layout);
+
             cover=view.findViewById(R.id.img_cover_card_events);
             name =view.findViewById(R.id.txv_name_card_events);
             city =view.findViewById(R.id.txv_city_card_events);
@@ -51,15 +61,15 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             // Initialization of the button.
             _btn_attend=view.findViewById(R.id.btn_attend_event_card);
 
+            //Initialization of the FontAwesome.
+            Context mainContext = MainActivity.getContextMain();
+            Typeface iconFont = FontManager.getTypeface(mainContext, FontManager.FONTAWESOME);
+            FontManager.markAsIconContainer(attend_layout, iconFont);
 
             // Listener of the button for the Attend function.
             _btn_attend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //AlertDialog.Builder alertAttendBuilder = new AlertDialog.Builder(v.getContext());
-                    //LayoutInflater inflater = MainActivity.this.getLayoutInflater();
-
 
                     final Context viewContext = v.getContext();
 
