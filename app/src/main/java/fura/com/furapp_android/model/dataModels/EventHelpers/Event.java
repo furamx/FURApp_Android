@@ -88,9 +88,54 @@ public class Event {
     }
 
     //
+    /*
     public String getStart_date() throws ParseException {
         String date= DateFormat.getDateInstance(DateFormat.MEDIUM).format(start_time);
         return date;
+    }
+    */
+
+    public String getStart_dateFormatted() {
+
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+            Date tempDate = sdf.parse(this.start_time);
+
+            sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            String finalDate = sdf.format(tempDate);
+
+            return finalDate;
+
+        }
+        catch (Exception ex) {
+            return "(Fecha no disponible)";
+        }
+
+
+
+    }
+
+    public String getStart_timeFormatted() {
+
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+            Date tempDate = sdf.parse(this.start_time);
+
+            sdf = new SimpleDateFormat("HH:mm");
+
+            String finalTime = sdf.format(tempDate);
+
+            return finalTime + " hrs";
+
+        }
+        catch (Exception ex) {
+            return "(Hora no disponible)";
+        }
+
+
     }
 
 }

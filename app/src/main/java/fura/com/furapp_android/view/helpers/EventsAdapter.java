@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,9 +160,11 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             //Set the event's id.
             holder.idEvent.setText(event.getId());
             holder.name.setText(event.getName());
-            holder.city.setText(event.getPlace().getLocation().getCity());
-            holder.start_time.setText(event.getStart_time());
-            //holder.date.setText(event.getStart_date());
+            if (event.getPlace().getLocation() != null) {
+                holder.city.setText(event.getPlace().getLocation().getCity());
+            }
+            holder.date.setText(event.getStart_dateFormatted());
+            holder.start_time.setText(event.getStart_timeFormatted());
             holder.location.setText(event.getPlace().getName());
 
 
@@ -178,7 +181,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
 
             }
         }
-        catch (Exception e){ }
+        catch (Exception e){
+            String strError = e.getMessage();
+        }
     }
 
     @Override
