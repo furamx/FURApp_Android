@@ -1,5 +1,7 @@
 package fura.com.furapp_android.view;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements
 
     FrameLayout bottomMenuFragmentLayout;
 
+    //Context variable for the Facebook token.
+    public static Context contextMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements
         fragmentTransaction.add(R.id.fragment_events_cards, eventsFragment, "events_cards_tag");
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
+
         if (auth.getCurrentUser() != null) {
             // already signed in
             BottomInfoFragment bottomInfoFragment = new BottomInfoFragment();
@@ -48,10 +53,46 @@ public class MainActivity extends AppCompatActivity implements
 
         //Make changes
         fragmentTransaction.commit();
+
+        //Save the token and userId.
+        getTokensAndUsersId();
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private void getTokensAndUsersId () {
+
+
+        //Code to get the token and idUser.
+        //Initialize the MainActivity context.
+        contextMain = getApplicationContext();
+
+        //Get the context from SignIn which has the information.
+        Context signInContext = SignInActivity.getContextSignIN();
+
+        //Trying to read the preferences from the SignInActivity.
+        if (signInContext != null) {
+            SharedPreferences shPrefSignIn = signInContext.getSharedPreferences("pref",Context.MODE_PRIVATE);
+
+            String strTokenUsr = shPrefSignIn.getString("TokenFacebook", "There is no token");
+            String strIdUser = shPrefSignIn.getString("UserIdFacebook", "There is no id");
+
+
+            SharedPreferences shPrefMain = getSharedPreferences("pref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor prefEditor = shPrefMain.edit();
+            prefEditor.putString("TokenFacebook", strTokenUsr);
+            prefEditor.putString("UserIdFacebook", strIdUser);
+
+            prefEditor.commit();
+        }
+    }
+
+    //Function to get the context in order to retrieve SharedPreferences in non-Activity classes.
+    public static Context getContextMain() {
+
+        return contextMain;
     }
 }

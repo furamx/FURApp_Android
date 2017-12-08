@@ -3,6 +3,7 @@ package fura.com.furapp_android.view.helpers;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +11,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import fura.com.furapp_android.R;
 import fura.com.furapp_android.model.FacebookRequest;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
+import fura.com.furapp_android.view.MainActivity;
+import fura.com.furapp_android.view.SignInActivity;
 
 /**
  * Created by ramon on 24/11/17.
@@ -45,20 +51,65 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             // Initialization of the button.
             _btn_attend=view.findViewById(R.id.btn_attend_event_card);
 
+
             // Listener of the button for the Attend function.
             _btn_attend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    //AlertDialog.Builder alertAttendBuilder = new AlertDialog.Builder(v.getContext());
+                    //LayoutInflater inflater = MainActivity.this.getLayoutInflater();
 
-                    AlertDialog.Builder alertAttendBuilder = new AlertDialog.Builder(v.getContext());
 
-                    alertAttendBuilder.setMessage("¿Desea asistir al evento seleccionado?");
+                    final Context viewContext = v.getContext();
+
+
+                    AlertDialog.Builder alertAttendBuilder = new AlertDialog.Builder(viewContext);
+                    alertAttendBuilder.setMessage(R.string.attend_event_warning);
+
 
                     alertAttendBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             //Code
-                            FacebookRequest.AttendEventFromFacebook(idEvent.getText().toString());
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                            if (auth.getCurrentUser() != null) {
+
+                                //FacebookRequest.PostAttendEventFromFacebook(idEvent.getText().toString());
+
+                            }
+                            else {
+
+
+                                AlertDialog.Builder alertLoginBuilder = new AlertDialog.Builder(viewContext);
+                                alertLoginBuilder.setMessage(R.string.attend_event_login);
+
+                                alertLoginBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //Code
+                                        Intent intent_sign_in = new Intent(viewContext, SignInActivity.class);
+                                        intent_sign_in.putExtra("caller-activity", "EventsAdapter");
+                                        viewContext.startActivity(intent_sign_in);
+
+                                    }
+                                });
+
+                                alertLoginBuilder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //Code
+                                    }
+                                });
+
+
+                                AlertDialog alertLogin = alertLoginBuilder.create();
+                                alertLogin.show();
+
+                            }
+
+
+
                         }
                     });
 
@@ -68,10 +119,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
                         }
                     });
 
-
-
                     AlertDialog alertAttendMessage = alertAttendBuilder.create();
                     alertAttendMessage.show();
+
 
                 }
             });
@@ -101,8 +151,22 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             holder.name.setText(event.getName());
             holder.city.setText(event.getPlace().getLocation().getCity());
             holder.start_time.setText(event.getStart_time());
-            holder.date.setText(event.getStart_date());
+            //holder.date.setText(event.getStart_date());
             holder.location.setText(event.getPlace().getName());
+
+
+            //Code to disable the events already selected to attend.
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            if (auth.getCurrentUser() != null) {
+
+                List<String> lstProviders = auth.getCurrentUser().getProviders();
+
+                if (lstProviders.contains("facebook.com")) {
+
+                    FacebookRequest.GetAttendedPersonsFromEventFromFacebook(holder.idEvent.getText().toString(), holder._btn_attend);
+                }
+
+            }
         }
         catch (Exception e){ }
     }
