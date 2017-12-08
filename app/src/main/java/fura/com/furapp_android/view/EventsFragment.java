@@ -38,6 +38,7 @@ public class EventsFragment extends Fragment {
         View view;
         view=inflater.inflate(R.layout.fragment_events, container, false);
         recyclerView= view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
         // Initialize adapter to show events information
         adapter =new EventsAdapter(getContext());
         //Create the layout to the event cards
