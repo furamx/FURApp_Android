@@ -17,14 +17,18 @@ import fura.com.furapp_android.view.helpers.EventsAdapter;
 
 public class EventsFragment extends Fragment {
 
+    //region GLOBAL FIELDS
     private RecyclerView recyclerView;
     private EventsAdapter adapter;
     private EventsPresenter eventsPresenter;
+    //endregion
 
+    //region CLASS CONSTRUCTORS
     //Initialize the presenter with this fragment
     public EventsFragment(){
         eventsPresenter=new EventsPresenter(this);
     }
+    //endregion
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,13 +50,13 @@ public class EventsFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        // Asign the adapter to recycler view
+        // Assign the adapter to recycler view
         recyclerView.setAdapter(adapter);
         eventsPresenter.UpdateEvents();
         return view;
     }
 
-    // Gets event list, asign it to the adapter and refresh the view
+    // Gets event list, assign it to the adapter and refresh the view
     public void UpdateAdapter(List<Event> _events) {
         adapter.eventList = _events;
         adapter.notifyDataSetChanged();

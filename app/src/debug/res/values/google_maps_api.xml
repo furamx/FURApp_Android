@@ -1,0 +1,26 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=63:0F:51:06:24:0F:64:E5:C7:AD:60:76:07:AB:2B:70:D9:70:0E:59%3Bfura.com.furapp_android.view
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    63:0F:51:06:24:0F:64:E5:C7:AD:60:76:07:AB:2B:70:D9:70:0E:59
+
+    SHA-1 certificate fingerprint:
+    63:0F:51:06:24:0F:64:E5:C7:AD:60:76:07:AB:2B:70:D9:70:0E:59
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA10gaTZRHEPZ2HWq5zMzDBs1mM8TNeKdc</string>-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDEvca0frKjDCuOM1vp2QNAY-WyEaqp16c</string>
+
+</resources>

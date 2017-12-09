@@ -4,12 +4,16 @@
     <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fb421974994867254</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- LOGIN -->
     <string name="no_internet_connection">No hay conexión a internet</string>
     <string name="unknown_error">Error desconocido</string>
     <string name="unknown_sign_in_response">Error desconocido</string>
 
+    <string name="data_no_available">No disponible</string>
+    <string name="title_activity_maps">Ubicación del evento</string>
+    <string name="action_logout">Salir</string>
+    <string name="logout_message">Regresa pronto :)</string>
+    <string name="start_label">Inicia </string>
+    <string name="end_label">Inicia </string>
+    <string name="marker_message">Aquí es (:</string>
 </resources>
