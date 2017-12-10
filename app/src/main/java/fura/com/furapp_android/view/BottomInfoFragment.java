@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import fura.com.furapp_android.R;
@@ -33,6 +34,8 @@ public class BottomInfoFragment extends Fragment {
             public void onClick(View view) {
                 auth = FirebaseAuth.getInstance();
                 auth.signOut();
+                //Signing out from Facebook too.
+                LoginManager.getInstance().logOut();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 BottomLoginFragment bottomLoginFragment = new BottomLoginFragment();
                 fragmentManager.beginTransaction().replace(R.id.fragment_bottom_main, bottomLoginFragment, "bottom_login_tag").commit();

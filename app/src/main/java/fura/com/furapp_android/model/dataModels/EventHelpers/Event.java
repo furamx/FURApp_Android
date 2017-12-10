@@ -58,28 +58,7 @@ public class Event {
     }
 
     public String getStart_time() throws ParseException {
-        /*
-        * String date = "2014-11-25 14:30";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:MM");
-        Date testDate = null;
-        try {
-            testDate = sdf.parse(date);
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd,yyyy hh:mm a");
-        String newFormat = formatter.format(testDate);
-        System.out.println(".....Date..."+newFormat);
-        * */
-        /*SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        Date date;
-        try{
-            dateFormat.parse(start_time);
-        } catch (Exception e){}
 
-        SimpleDateFormat formatter=new SimpleDateFormat("dd MMMMM, yyyy");
-        String newFormat=formatter.format(date);
-        return newFormat;*/
         return null;
     }
 
@@ -87,23 +66,17 @@ public class Event {
         this.start_time = start_time;
     }
 
-    //
-    /*
-    public String getStart_date() throws ParseException {
-        String date= DateFormat.getDateInstance(DateFormat.MEDIUM).format(start_time);
-        return date;
-    }
-    */
 
     public String getStart_dateFormatted() {
 
         try {
 
+            //Convert the String object to Date object.
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             Date tempDate = sdf.parse(this.start_time);
 
+            //Convert the Date object to String object, but formatted.
             sdf = new SimpleDateFormat("yyyy-MM-dd");
-
             String finalDate = sdf.format(tempDate);
 
             return finalDate;
@@ -113,19 +86,19 @@ public class Event {
             return "(Fecha no disponible)";
         }
 
-
-
     }
+
 
     public String getStart_timeFormatted() {
 
         try {
 
+            //Convert the String object to Date object.
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             Date tempDate = sdf.parse(this.start_time);
 
+            //Convert the Date object to String object, but formatted.
             sdf = new SimpleDateFormat("HH:mm");
-
             String finalTime = sdf.format(tempDate);
 
             return finalTime + " hrs";
@@ -134,7 +107,6 @@ public class Event {
         catch (Exception ex) {
             return "(Hora no disponible)";
         }
-
 
     }
 

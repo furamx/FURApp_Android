@@ -1,5 +1,6 @@
 package fura.com.furapp_android.view.helpers;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
@@ -86,8 +92,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
 
                             if (auth.getCurrentUser() != null) {
 
-                                //FacebookRequest.PostAttendEventFromFacebook(idEvent.getText().toString());
-
+                                FacebookRequest.PostAttendEventFromFacebook(idEvent.getText().toString(), viewContext);
                             }
                             else {
 
@@ -138,6 +143,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             });
         }
     }
+
+
+
     public EventsAdapter(Context context){
         //Get the context
         this.context=context;

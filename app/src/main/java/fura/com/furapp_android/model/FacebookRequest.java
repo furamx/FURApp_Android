@@ -3,18 +3,14 @@ package fura.com.furapp_android.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
-import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -72,7 +68,6 @@ public class FacebookRequest {
                             //Code
                             JSONObject object = response.getJSONObject();
 
-
                             try {
 
                                 JSONArray objArray = object.getJSONArray("data");
@@ -105,13 +100,10 @@ public class FacebookRequest {
 
     }
 
-    public static void PostAttendEventFromFacebook(final String eventId) {
+
+    public static void PostAttendEventFromFacebook(final String eventId, final Context context) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
-        List<String> lstPermissions = new ArrayList<>();
-        lstPermissions.add("rsvp_event");
-
 
         if (auth.getCurrentUser() != null)
         {
@@ -127,7 +119,7 @@ public class FacebookRequest {
 
             if (!strTokenUsr.equals("There is no token") && !strIdUser.equals("There is no id")) {
 
-                AccessToken accessToken=new AccessToken(strTokenUsr,"421974994867254", strIdUser, lstPermissions,null,null,null,null);
+                AccessToken accessToken=new AccessToken(strTokenUsr,"421974994867254", strIdUser, null,null,null,null,null);
                 //make the API call
                 new GraphRequest(
                         accessToken,
@@ -139,6 +131,21 @@ public class FacebookRequest {
                             public void onCompleted(GraphResponse response) {
                                 //Code
                                 JSONObject object = response.getJSONObject();
+
+                                //Validating the response.
+                                if (response.getError() != null) {
+
+                                    String strError = response.getError().getErrorMessage();
+
+                                    if (strError.equals("(#100) User must be able to RSVP to the event.")) {
+                                        //Event not available
+                                        Toast.makeText(context, "Evento caducado, ya no disponible.", Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        Toast.makeText(context, "Error al conectarse con el servidor.", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
                             }
                         }
                 ).executeAsync();

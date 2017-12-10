@@ -5,13 +5,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 import org.json.JSONObject;
@@ -33,51 +51,100 @@ public class SignInActivity extends AppCompatActivity {
     //Context variable for the Facebook token.
     public static Context contextSignIn;
 
+    //Login Button and CallbackManager for writing permissions (for the events).
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
+
+    //Firebase variable authenticate.
+    private FirebaseAuth auth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        //Firebase variable authenticate.
+        auth = FirebaseAuth.getInstance();
+
         //Initialize context for the token and userId.
         contextSignIn = getApplicationContext();
 
-        String callerActivity = getIntent().getStringExtra("caller-activity");
+        //Button for password authentication.
+        Button btnLoginPassword = (Button) findViewById(R.id.btn_login_password);
 
-        if (callerActivity == null) {
-            //ORIGINAL METHOD
-            startActivityForResult(
-                    AuthUI.getInstance().createSignInIntentBuilder().setPrivacyPolicyUrl("https://drive.google.com/file/d/1PSAP6i3L-mx-YM7_TWNqEZxOo1Vh4WC5/view?usp=sharing")
-                            .setAvailableProviders(
-                                    Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
-                                            new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build())
-                            ).build(),
-                    RC_SIGN_IN);
+
+        //Initialization for the Login Button.
+        callbackManager = CallbackManager.Factory.create();
+        loginButton = (LoginButton) findViewById(R.id.btn_login_facebook);
+        loginButton.setPublishPermissions(Arrays.asList("rsvp_event"));
+
+        //To set visibility of password button.
+        String callerActivity = getIntent().getStringExtra("caller-activity");
+        if (callerActivity != null) {
+            btnLoginPassword.setVisibility(View.GONE);
+
+            loginButton.performClick();
         }
-        else if (callerActivity.equals("EventsAdapter")) {
-            //Only Facebook
-            startActivityForResult(
-                    AuthUI.getInstance().createSignInIntentBuilder().setPrivacyPolicyUrl("https://drive.google.com/file/d/1PSAP6i3L-mx-YM7_TWNqEZxOo1Vh4WC5/view?usp=sharing")
-                            .setAvailableProviders(
-                                    Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build())
-                            ).build(),
-                    RC_SIGN_IN);
+        else {
+            btnLoginPassword.setVisibility(View.VISIBLE);
         }
+
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+                //Saving the access token and user id from the user for later use.
+                saveTokenAndUserId(loginResult.getAccessToken().getToken(), loginResult.getAccessToken().getUserId());
+
+                //Use Facebook access token to authenticate with Firebase.
+                authenticateToFirebase(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+
+
+        //Authenticate with password.
+        btnLoginPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //ORIGINAL METHOD
+                startActivityForResult(
+                        AuthUI.getInstance().createSignInIntentBuilder().setPrivacyPolicyUrl("https://drive.google.com/file/d/1PSAP6i3L-mx-YM7_TWNqEZxOo1Vh4WC5/view?usp=sharing")
+                                .setAvailableProviders(
+                                        Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build())
+                                ).build(),
+                        RC_SIGN_IN);
+            }
+        });
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //Code to enable the callback from Facebook authentication.
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        //Code used for password authentication.
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
+
             // Successfully signed in
             if (resultCode == RESULT_OK) {
-
-                if (response.getProviderType().equals("facebook.com"))
-                {
-                    AsyncGetUserId taskToken = new AsyncGetUserId();
-                    taskToken.execute(response.getIdpToken());
-                }
 
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
@@ -113,53 +180,29 @@ public class SignInActivity extends AppCompatActivity {
         toast.show();
     }
 
+    private void authenticateToFirebase(AccessToken token) {
 
-    public class AsyncGetUserId extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            String strURL = "https://graph.facebook.com/me?fields=id&access_token=" + strings[0];
-
-            try
-            {
-                URL netURL = new URL(strURL);
-                HttpURLConnection conn = (HttpURLConnection) netURL.openConnection();
-                conn.setReadTimeout(100000);
-                conn.setConnectTimeout(150000);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestMethod("GET");
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
 
-                conn.connect();
 
-                int responseCode = conn.getResponseCode();
+                            //Successful code.
+                            Intent intent = new Intent(contextSignIn, MainActivity.class);
+                            startActivity(intent);
+                            finish();
 
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader buffReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        } else {
+                            //Unsuccessful code.
+                        }
 
-                    String strResponseContent = "";
-
-                    String tempLine = "";
-                    while ((tempLine = buffReader.readLine()) != null) {
-                        strResponseContent += tempLine + "\n";
                     }
-                    buffReader.close();
+                });
 
-                    JSONObject objId = new JSONObject(strResponseContent);
-
-                    String strUserId = objId.getString("id");
-
-                    saveTokenAndUserId(strings[0], strUserId);
-                }
-
-            }
-            catch (Exception e) {
-                showSnackbar(R.string.unknown_error);
-            }
-
-            return "Finished";
-        }
     }
 
     private void saveTokenAndUserId(String idToken, String idUser) {
