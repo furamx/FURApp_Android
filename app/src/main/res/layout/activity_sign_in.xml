@@ -19,6 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Login with password"/>
+        android:text="Continue with email"/>
 
 </LinearLayout>
