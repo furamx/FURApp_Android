@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import fura.com.furapp_android.R;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements
 
     //region GLOBAL FIELDS
     FirebaseAuth auth;
+    Menu menu;
     //endregion
 
     @Override
@@ -61,11 +63,14 @@ public class MainActivity extends AppCompatActivity implements
 
     //region MENU IN NAV BAR
 
-    //Create the menu with the menu options in res->menu->menu_options
+    //Create the menu with the menu options, menu design located in res->menu->menu_options
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(auth.getCurrentUser()!=null)
+        //Check if there's a user log in
+        if(auth.getCurrentUser()!=null||LoginManager.getInstance()!=null) {
+            this.menu=menu;
             getMenuInflater().inflate(R.menu.menu_options, menu);
+        }
         return true;
     }
 
@@ -77,10 +82,14 @@ public class MainActivity extends AppCompatActivity implements
         if (id == R.id.action_logout) {
             //sign out the firebase user
             auth.signOut();
+            //sign out facebook user
+            LoginManager.getInstance().logOut();
             //return to the main view
             FragmentManager fragmentManager = this.getSupportFragmentManager();
             BottomLoginFragment bottomLoginFragment = new BottomLoginFragment();
             fragmentManager.beginTransaction().replace(R.id.fragment_bottom_main, bottomLoginFragment, "bottom_login_tag").commit();
+            //delete the options menu
+            menu.clear();
             //Shows log out message
             Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.logout_message), Toast.LENGTH_LONG).show();
             return true;
