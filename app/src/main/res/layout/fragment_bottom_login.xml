@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fura.com.furapp_android.view.BottomMenuFragment">
+    tools:context="fura.com.furapp_android.view.BottomLoginFragment">
     <Button
         android:id="@+id/btn_access_sign_in"
         android:layout_height="match_parent"

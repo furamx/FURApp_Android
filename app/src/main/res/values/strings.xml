@@ -1,7 +1,20 @@
 <resources>
-    <string name="app_name">FURApp_Android</string>
+    <string name="app_name">FURApp</string>
     <string name="facebook_application_id" translatable="false">421974994867254</string>
     <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fb421974994867254</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- LOGIN -->
+    <string name="no_internet_connection">No hay conexión a internet</string>
+    <string name="unknown_error">Error desconocido</string>
+    <string name="unknown_sign_in_response">Error desconocido</string>
+
+    <!-- ATTEND EVENT -->
+    <string name="attend_button_check">&#xf00c;</string>
+    <string name="attend_event_warning">¿Desea asistir al evento seleccionado?</string>
+    <string name="attend_event_login">No ha iniciado sesión en Facebook, ¿desea iniciar en Facebook para asistir al evento?</string>
 
 </resources>
