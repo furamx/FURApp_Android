@@ -63,6 +63,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+<<<<<<< HEAD
 
         //Firebase variable authenticate.
         auth = FirebaseAuth.getInstance();
@@ -130,6 +131,15 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+=======
+        startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder()
+                .setAvailableProviders(
+                        Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build())
+                ).build(),
+                RC_SIGN_IN);
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
     }
 
     @Override
@@ -142,8 +152,10 @@ public class SignInActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
+
             // Successfully signed in
             if (resultCode == RESULT_OK) {
+
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();

@@ -13,10 +13,13 @@ import android.view.View.OnClickListener;
 import fura.com.furapp_android.R;
 
 public class BottomLoginFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Inflate the layout
         View view = inflater.inflate(R.layout.fragment_bottom_login, container, false);
+        //Set the action in the sign in button
         Button _btn_access= view.findViewById(R.id.btn_access_sign_in);
         _btn_access.setOnClickListener(new OnClickListener() {
             @Override
