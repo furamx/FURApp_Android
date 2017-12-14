@@ -4,7 +4,7 @@
     <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fb421974994867254</string>
 
-    <!-- LOGIN -->
+    <!-- LOGIN MESSAGES -->
     <string name="no_internet_connection">No hay conexión a internet</string>
     <string name="unknown_error">Error desconocido</string>
     <string name="unknown_sign_in_response">Error desconocido</string>
@@ -17,6 +17,7 @@
     <string name="end_label">Termina</string>
     <string name="marker_message">Aquí es</string>
     <string name="location_no_available">No hay una ubicación para mostrar</string>
+    <string name="continuew_with_email">Continuar con mi correo</string>
     
     <!-- ATTEND EVENT -->
     <string name="attend_button_check">&#xf00c;</string>
