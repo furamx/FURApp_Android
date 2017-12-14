@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -224,9 +226,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
                 viewHolder.street.setText(event.getPlace().getLocation().getStreet());
             }
             if(event.getStart_time()!=null)
-                viewHolder.start_time.setText(context.getString(R.string.start_label)+ StringFormatter.ToHour(event.getStart_time()));
+                viewHolder.start_time.setText(context.getString(R.string.start_label)+"  "+StringFormatter.ToHour(event.getStart_time()));
             if(event.getEnd_time()!=null)
-                viewHolder.end_time.setText(context.getString(R.string.end_label)+ StringFormatter.ToHour(event.getEnd_time()));
+                viewHolder.end_time.setText(context.getString(R.string.end_label)+"  "+StringFormatter.ToHour(event.getEnd_time()));
             if(event.getPlace()!=null)
                 viewHolder.location.setText(event.getPlace().getName());
             if(event.getStart_time()!=null)
@@ -252,6 +254,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             public void onClick(View v) {
                 if(event.getPlace().getLocation()!=null)
                     PlaceLayout_OnClick(event.getPlace().getLocation().getLongitude(),event.getPlace().getLocation().getLatitude());
+                else{
+                    showSnackbar(R.string.location_no_available);
+                }
             }
         });
     }
@@ -301,4 +306,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
 
     //endregion
 
+    public void showSnackbar(int text_id){
+        Toast toast = Toast.makeText(context, text_id, Toast.LENGTH_LONG);
+        toast.show();
+    }
 }

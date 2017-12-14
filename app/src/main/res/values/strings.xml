@@ -13,9 +13,10 @@
     <string name="title_activity_maps">Ubicación del evento</string>
     <string name="action_logout">Salir</string>
     <string name="logout_message">Regresa pronto</string>
-    <string name="start_label">Inicia  </string>
-    <string name="end_label">Termina  </string>
+    <string name="start_label">Inicia</string>
+    <string name="end_label">Termina</string>
     <string name="marker_message">Aquí es</string>
+    <string name="location_no_available">No hay una ubicación para mostrar</string>
     
     <!-- ATTEND EVENT -->
     <string name="attend_button_check">&#xf00c;</string>
