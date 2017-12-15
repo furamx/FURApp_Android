@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Check if there's a user log in
-        if(auth.getCurrentUser()!=null||LoginManager.getInstance()!=null) {
+        if(auth.getCurrentUser()!=null&&LoginManager.getInstance()!=null) {
             this.menu=menu;
             getMenuInflater().inflate(R.menu.menu_options, menu);
         }
