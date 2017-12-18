@@ -1,6 +1,9 @@
 <resources>
     <!-- Root event card margins -->
-    <dimen name="event_card_margin">8dp</dimen>
+    <dimen name="event_card_margin">10dp</dimen>
     <!-- Root event details margins -->
     <dimen name="event_details_margin">5dp</dimen>
+    <!-- Log in buttons -->
+    <dimen name="login_facebook_button_width">222dp</dimen>
+    <dimen name="login_email_button_width">230dp</dimen>
 </resources>

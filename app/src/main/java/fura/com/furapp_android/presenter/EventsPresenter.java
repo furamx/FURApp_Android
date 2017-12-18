@@ -14,13 +14,18 @@ import fura.com.furapp_android.view.EventsFragment;
 
 public class EventsPresenter {
 
+    //region GLOBAL FIELDS
     private EventsFragment eventsFragment;
     private List<Event> eventList;
+    //endregion
 
+    //region CLASS CONSTRUCTORS
     public EventsPresenter(EventsFragment _eventsFragment){
         this.eventsFragment=_eventsFragment;
     }
+    //endregion
 
+    //region EVENTS METHODS
     public void UpdateEvents(){
         FacebookRequest.GetEventsFromFacebook(this);
     }
@@ -30,4 +35,5 @@ public class EventsPresenter {
         eventList=_eventRoot.getData();
         eventsFragment.UpdateAdapter(eventList);
     }
+    //endregion
 }

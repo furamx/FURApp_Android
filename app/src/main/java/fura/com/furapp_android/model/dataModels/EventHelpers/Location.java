@@ -7,8 +7,9 @@ package fura.com.furapp_android.model.dataModels.EventHelpers;
 public class Location {
     private String city;
     private String country;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
+    private String street;
 
     public String getCity() {
         return city;
@@ -26,19 +27,27 @@ public class Location {
         this.country = country;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 }

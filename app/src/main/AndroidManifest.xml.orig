@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+<<<<<<< HEAD
+=======
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -11,6 +13,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,6 +29,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.SignInActivity" />
+<<<<<<< HEAD
+    </application>
+
+=======
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -43,4 +50,5 @@
             android:label="@string/title_activity_maps"></activity>
     </application>
 
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
 </manifest>

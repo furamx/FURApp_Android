@@ -1,25 +1,28 @@
 package fura.com.furapp_android.view.helpers;
-import android.animation.ObjectAnimator;
+<<<<<<< HEAD
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+=======
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.Intent;
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageButton;
+<<<<<<< HEAD
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -28,16 +31,28 @@ import com.facebook.login.LoginResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
+=======
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import com.squareup.picasso.Picasso;
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
 import java.util.ArrayList;
 import java.util.List;
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.domain.StringFormatter;
+<<<<<<< HEAD
 import fura.com.furapp_android.model.FacebookRequest;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
 import fura.com.furapp_android.view.FontManager;
 import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.SignInActivity;
+=======
+import fura.com.furapp_android.domain.StringFormatter;
+import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
 import fura.com.furapp_android.view.MapsActivity;
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
 
 /**
  * Created by ramon on 24/11/17.
@@ -73,24 +88,32 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
 
     //Create the view's object
     public class MyViewHolder extends RecyclerView.ViewHolder{
+<<<<<<< HEAD
 
         //LinearLayout for FontAwesome.
         public LinearLayout attend_layout;
 
         // Create the view's objects
         public ImageView cover;
+        public TextView name, city, date, start_time, location, idEvent;
         // Button variable to make Attend function.
         public Button _btn_attend;
-        public TextView name, city, date, start_time, location, description, end_time, street, idEvent;
-        public ImageButton expand_button;
-        public LinearLayout expandable_layout,place_layout;
-
         public MyViewHolder(View view){
             super(view);
             //LinearLayout for FontAwesome.
             attend_layout = view.findViewById(R.id.attend_layout);
 
+=======
+        //fields
+        public ImageView cover;
+        public TextView name, city, date, start_time, location, description, end_time, street;
+        public ImageButton expand_button;
+        public LinearLayout expandable_layout,place_layout;
+
+        public MyViewHolder(View view){
+            super(view);
             //image view
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
             cover=view.findViewById(R.id.img_cover_card_events);
             //text view
             name =view.findViewById(R.id.txv_name_card_events);
@@ -98,14 +121,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             date=view.findViewById(R.id.txv_date_card_events);
             start_time =view.findViewById(R.id.txv_start_time_card_events);
             location=view.findViewById(R.id.txv_location_card_events);
-            description=view.findViewById(R.id.txv_description_card_events);
-            end_time=view.findViewById(R.id.txv_end_time_card_events);
-            street=view.findViewById(R.id.txv_street_card_events);
-            //button
-            expand_button=view.findViewById(R.id.btn_drop_down_event_card);
-            //layout
-            expandable_layout=view.findViewById(R.id.lyt_expandable_details);
-            place_layout=view.findViewById(R.id.lyt_place_card_event);
+<<<<<<< HEAD
             // Variable for the id of the event.
             idEvent=view.findViewById(R.id.txv_id_card_events);
             // Initialization of the button.
@@ -186,8 +202,28 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             });
         }
     }
-    
+
+
+
+    public EventsAdapter(Context context){
+        //Get the context
+        this.context=context;
+        //Initialize the list of events
+        this.eventList=new ArrayList<>();
+    }
+=======
+            description=view.findViewById(R.id.txv_description_card_events);
+            end_time=view.findViewById(R.id.txv_end_time_card_events);
+            street=view.findViewById(R.id.txv_street_card_events);
+            //button
+            expand_button=view.findViewById(R.id.btn_drop_down_event_card);
+            //layout
+            expandable_layout=view.findViewById(R.id.lyt_expandable_details);
+            place_layout=view.findViewById(R.id.lyt_place_card_event);
+        }
+    }
     //When create the view holder it inflates the event card
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card,parent,false);
@@ -200,6 +236,19 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             viewHolder.setIsRecyclable(false);
             //Gets the object to show
             event = eventList.get(position);
+            //Set the event properties in the view
+<<<<<<< HEAD
+            //cover
+            //Set the event's id.
+            holder.idEvent.setText(event.getId());
+            holder.name.setText(event.getName());
+            if (event.getPlace().getLocation() != null) {
+                holder.city.setText(event.getPlace().getLocation().getCity());
+            }
+            holder.date.setText(event.getStart_dateFormatted());
+            holder.start_time.setText(event.getStart_timeFormatted());
+            holder.location.setText(event.getPlace().getName());
+
 
             //Code to disable the events already selected to attend.
             FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -209,14 +258,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
 
                 if (lstProviders.contains("facebook.com")) {
 
-                    FacebookRequest.GetAttendedPersonsFromEventFromFacebook(viewHolder.idEvent.getText().toString(), viewHolder._btn_attend);
+                    FacebookRequest.GetAttendedPersonsFromEventFromFacebook(holder.idEvent.getText().toString(), holder._btn_attend);
                 }
 
             }
-            
-            //Set the event properties in the view
-            //Set the event's id.
-            viewHolder.idEvent.setText(event.getId());
+        }
+        catch (Exception e){
+            String strError = e.getMessage();
+=======
             if(event.getCover()!=null)
                 Picasso.with(context).load(event.getCover().getSource()).into(viewHolder.cover);
             if(event.getName()!=null)
@@ -226,9 +275,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
                 viewHolder.street.setText(event.getPlace().getLocation().getStreet());
             }
             if(event.getStart_time()!=null)
-                viewHolder.start_time.setText(context.getString(R.string.start_label)+"  "+StringFormatter.ToHour(event.getStart_time()));
+                viewHolder.start_time.setText(context.getString(R.string.start_label)+ StringFormatter.ToHour(event.getStart_time()));
             if(event.getEnd_time()!=null)
-                viewHolder.end_time.setText(context.getString(R.string.end_label)+"  "+StringFormatter.ToHour(event.getEnd_time()));
+                viewHolder.end_time.setText(context.getString(R.string.end_label)+ StringFormatter.ToHour(event.getEnd_time()));
             if(event.getPlace()!=null)
                 viewHolder.location.setText(event.getPlace().getName());
             if(event.getStart_time()!=null)
@@ -254,9 +303,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             public void onClick(View v) {
                 if(event.getPlace().getLocation()!=null)
                     PlaceLayout_OnClick(event.getPlace().getLocation().getLongitude(),event.getPlace().getLocation().getLatitude());
-                else{
-                    showSnackbar(R.string.location_no_available);
-                }
             }
         });
     }
@@ -269,6 +315,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
         this.eventList = events;
         for (int i = 0; i < events.size(); i++) {
             expandState.append(i, false);
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
         }
     }
 
@@ -306,8 +353,4 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
 
     //endregion
 
-    public void showSnackbar(int text_id){
-        Toast toast = Toast.makeText(context, text_id, Toast.LENGTH_LONG);
-        toast.show();
-    }
 }

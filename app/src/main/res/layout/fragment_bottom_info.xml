@@ -4,14 +4,4 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent">
 
-    <Button
-        android:id="@+id/btn_logout_bottom_fragment"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Salir"/>
-
 </RelativeLayout>

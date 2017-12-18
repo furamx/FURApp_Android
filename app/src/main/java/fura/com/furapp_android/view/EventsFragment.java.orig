@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.List;
 import fura.com.furapp_android.R;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
@@ -56,7 +57,12 @@ public class EventsFragment extends Fragment {
         return view;
     }
 
+<<<<<<< HEAD
+
+    // Gets event list, asign it to the adapter and refresh the view
+=======
     // Gets event list, assign it to the adapter and refresh the view
+>>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
     public void UpdateAdapter(List<Event> _events) {
         adapter.eventList = _events;
         adapter.notifyDataSetChanged();
