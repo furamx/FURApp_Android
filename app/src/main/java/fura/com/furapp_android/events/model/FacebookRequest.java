@@ -16,14 +16,10 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fura.com.furapp_android.R;
 import fura.com.furapp_android.model.dataModels.EventHelpers.EventRoot;
 import fura.com.furapp_android.presenter.EventsPresenter;
 import fura.com.furapp_android.view.MainActivity;
-import fura.com.furapp_android.view.EventsFragment;
 
 /**
  * Created by ramon on 22/11/17.

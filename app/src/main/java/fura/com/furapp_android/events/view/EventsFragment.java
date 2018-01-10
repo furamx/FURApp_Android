@@ -1,4 +1,4 @@
-package fura.com.furapp_android.view;
+package fura.com.furapp_android.events;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

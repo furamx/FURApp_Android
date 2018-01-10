@@ -6,7 +6,7 @@ import java.util.List;
 import fura.com.furapp_android.model.FacebookRequest;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
 import fura.com.furapp_android.model.dataModels.EventHelpers.EventRoot;
-import fura.com.furapp_android.view.EventsFragment;
+import fura.com.furapp_android.events.EventsFragment;
 
 /**
  * Created by ramon on 27/11/17.
