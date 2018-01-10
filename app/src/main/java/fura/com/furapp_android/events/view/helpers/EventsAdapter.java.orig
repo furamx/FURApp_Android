@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import fura.com.furapp_android.R;
 <<<<<<< HEAD
-import fura.com.furapp_android.model.FacebookRequest;
+import fura.com.furapp_android.events.model.FacebookRequest;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
 import fura.com.furapp_android.view.FontManager;
 import fura.com.furapp_android.view.MainActivity;

@@ -1,4 +1,5 @@
-package fura.com.furapp_android.events;
+package fura.com.furapp_android.events.view;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
-import fura.com.furapp_android.presenter.EventsPresenter;
-import fura.com.furapp_android.view.helpers.EventsAdapter;
+import fura.com.furapp_android.events.model.helpers.Event;
+import fura.com.furapp_android.events.presenter.EventsPresenter;
+import fura.com.furapp_android.events.view.helpers.EventsAdapter;
 
 public class EventsFragment extends Fragment {
 
@@ -60,6 +61,12 @@ public class EventsFragment extends Fragment {
     public void UpdateAdapter(List<Event> _events) {
         adapter.eventList = _events;
         adapter.notifyDataSetChanged();
+    }
+
+    public void UpdateAssistButton(EventsAdapter.MyViewHolder eventHolder) {
+        eventHolder._btn_attend.setBackgroundColor(Color.GREEN);
+        eventHolder._btn_attend.setText(R.string.attend_button_check);
+        eventHolder._btn_attend.setEnabled(false);
     }
 
     public interface OnFragmentInteractionListener {

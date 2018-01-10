@@ -1,4 +1,4 @@
-package fura.com.furapp_android.model.dataModels.EventHelpers;
+package fura.com.furapp_android.events.model.helpers;
 
 /**
  * Created by ramon on 07/12/17.

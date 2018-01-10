@@ -1,4 +1,4 @@
-package fura.com.furapp_android.model;
+package fura.com.furapp_android.events.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,8 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.model.dataModels.EventHelpers.EventRoot;
-import fura.com.furapp_android.presenter.EventsPresenter;
+import fura.com.furapp_android.events.model.helpers.EventRoot;
+import fura.com.furapp_android.events.presenter.EventsPresenter;
 import fura.com.furapp_android.view.MainActivity;
 
 /**
@@ -56,7 +56,7 @@ public class FacebookRequest {
     }
 
     // Graph method to attend an event on Facebook.
-    public static void GetAttendedPersonsFromEventFromFacebook(final String eventId, final Button btnEvent) {
+    public static void GetAttendedPersonsFromEventFromFacebook(final EventsPresenter eventsPresenter) {
 
         Context mainContext = MainActivity.getContextMain();
         SharedPreferences shPref = mainContext.getSharedPreferences("pref",Context.MODE_PRIVATE);
@@ -67,7 +67,7 @@ public class FacebookRequest {
         //make the API call
             new GraphRequest(
                     accessToken,
-                    "/" + eventId + "/attending",
+                    "/" + eventsPresenter.eventHolder.idEvent.getText().toString() + "/attending",
                     null,
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
@@ -86,9 +86,7 @@ public class FacebookRequest {
 
                                     if (objJson.getString("id").equals(strIdUser)) {
 
-                                        btnEvent.setBackgroundColor(Color.GREEN);
-                                        btnEvent.setText(R.string.attend_button_check);
-                                        btnEvent.setEnabled(false);
+                                        eventsPresenter.UpdateAssistButton();
 
                                         break;
                                     }

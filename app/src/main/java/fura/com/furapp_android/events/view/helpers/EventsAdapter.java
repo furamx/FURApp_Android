@@ -1,6 +1,5 @@
-package fura.com.furapp_android.view.helpers;
+package fura.com.furapp_android.events.view.helpers;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,20 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import fura.com.furapp_android.R;
 import fura.com.furapp_android.domain.StringFormatter;
-import fura.com.furapp_android.model.FacebookRequest;
-import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
+import fura.com.furapp_android.events.model.FacebookRequest;
+import fura.com.furapp_android.events.model.helpers.Event;
+import fura.com.furapp_android.events.presenter.EventsPresenter;
+import fura.com.furapp_android.events.view.EventsFragment;
 import fura.com.furapp_android.view.FontManager;
 import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.SignInActivity;
@@ -47,6 +42,7 @@ import fura.com.furapp_android.view.MapsActivity;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
 
     //region GLOBAL FIELDS
+    private EventsPresenter eventsPresenter;
     private Context context;
     public List<Event> eventList;
     private Event event;
@@ -116,6 +112,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             Typeface iconFont = FontManager.getTypeface(mainContext, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(attend_layout, iconFont);
 
+            //Initialization of the Presenter.
+            eventsPresenter = new EventsPresenter(new EventsFragment());
+
             // Listener of the button for the Attend function.
             _btn_attend.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,6 +122,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
 
                     final Context viewContext = v.getContext();
 
+
+                    eventsPresenter.AttendEvent(viewContext, idEvent.getText().toString());
+
+                    /*
 
                     AlertDialog.Builder alertAttendBuilder = new AlertDialog.Builder(viewContext);
                     alertAttendBuilder.setMessage(R.string.attend_event_warning);
@@ -181,6 +184,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
                     AlertDialog alertAttendMessage = alertAttendBuilder.create();
                     alertAttendMessage.show();
 
+                    */
 
                 }
             });
@@ -202,6 +206,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             event = eventList.get(position);
 
             //Code to disable the events already selected to attend.
+            eventsPresenter.eventHolder = viewHolder;
+            eventsPresenter.GetAttendedPersonsFromEvent();
+
+            /*
             FirebaseAuth auth = FirebaseAuth.getInstance();
             if (auth.getCurrentUser() != null) {
 
@@ -213,6 +221,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
                 }
 
             }
+            */
             
             //Set the event properties in the view
             //Set the event's id.

@@ -1,8 +1,4 @@
-package fura.com.furapp_android.model.dataModels.EventHelpers;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+package fura.com.furapp_android.events.model.helpers;
 
 /**
  * Created by ramon on 23/11/17.
