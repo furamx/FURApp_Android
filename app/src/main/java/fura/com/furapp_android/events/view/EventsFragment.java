@@ -1,4 +1,5 @@
 package fura.com.furapp_android.events.view;
+import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import java.util.List;
 import fura.com.furapp_android.R;
 import fura.com.furapp_android.events.model.helpers.Event;
@@ -67,6 +70,10 @@ public class EventsFragment extends Fragment {
         eventHolder._btn_attend.setBackgroundColor(Color.GREEN);
         eventHolder._btn_attend.setText(R.string.attend_button_check);
         eventHolder._btn_attend.setEnabled(false);
+    }
+
+    public void NotifyUser(String strMessage, Context context) {
+        Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
     }
 
     public interface OnFragmentInteractionListener {

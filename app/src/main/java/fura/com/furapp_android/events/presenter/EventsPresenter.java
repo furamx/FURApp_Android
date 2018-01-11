@@ -8,6 +8,9 @@ import android.graphics.Color;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,7 @@ import fura.com.furapp_android.events.model.helpers.Event;
 import fura.com.furapp_android.events.model.helpers.EventRoot;
 import fura.com.furapp_android.events.view.EventsFragment;
 import fura.com.furapp_android.events.view.helpers.EventsAdapter;
+import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.SignInActivity;
 
 /**
@@ -48,12 +52,12 @@ public class EventsPresenter {
         eventsFragment.UpdateAdapter(eventList);
     }
 
-    public void AttendEvent(final Context _context, final String idEvent) {
+    public void AttendEvent(final Context _context) {
 
         AlertDialog.Builder alertAttendBuilder = new AlertDialog.Builder(_context);
         alertAttendBuilder.setMessage(R.string.attend_event_warning);
 
-
+        final EventsPresenter presenter = this;
 
         alertAttendBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -62,7 +66,7 @@ public class EventsPresenter {
 
                 if (auth.getCurrentUser() != null) {
 
-                    FacebookRequest.PostAttendEventFromFacebook(idEvent, _context);
+                    FacebookRequest.PostAttendEventFromFacebook(presenter, _context);
                 }
                 else {
 
@@ -109,7 +113,7 @@ public class EventsPresenter {
         alertAttendMessage.show();
     }
 
-    public void GetAttendedPersonsFromEvent() {
+    public void GetAttendedPersonsFromEvent(Context context) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
@@ -118,16 +122,43 @@ public class EventsPresenter {
 
             if (lstProviders.contains("facebook.com")) {
 
-                FacebookRequest.GetAttendedPersonsFromEventFromFacebook(this);
+                FacebookRequest.GetAttendedPersonsFromEventFromFacebook(this, context);
             }
 
         }
 
     }
 
-    public void UpdateAssistButton() {
+    //Method to disable the attend function for already selected events.
+    public void UpdateAssistButton(JSONArray objArray, String strIdUser, Context context) {
 
-        eventsFragment.UpdateAssistButton(eventHolder);
+        try {
+
+            for (int i = 0; i < objArray.length(); i++) {
+
+                JSONObject objJson = (JSONObject)objArray.get(i);
+
+                if (objJson.getString("id").equals(strIdUser)) {
+
+                    eventsFragment.UpdateAssistButton(eventHolder);
+
+                    break;
+                }
+            }
+
+        }
+        catch (Exception ex) {
+
+            eventsFragment.NotifyUser("Error al administrar eventos a asistir.", context);
+        }
+
+    }
+
+    //Method to notify the user possible errors trying to do an operation.
+    public void NotifyUser(String strMessage, Context context) {
+
+        eventsFragment.NotifyUser(strMessage, context);
+
     }
     //endregion
 }

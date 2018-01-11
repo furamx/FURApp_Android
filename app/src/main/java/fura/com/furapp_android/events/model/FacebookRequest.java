@@ -31,7 +31,8 @@ public class FacebookRequest {
         //Set parameters
         Bundle bundle_parameters=new Bundle();
         bundle_parameters.putString("fields","cover,description,end_time,name,place,start_time,is_canceled,is_draft");
-        AccessToken accessToken=new AccessToken("EAAFZCyLWsVDYBAJYlmthkYIQmqZBeuNu6J1TkK79ulZBBZCYMfqIhEeQuPsV0cOe3ovWACMxZC2cjfVGRqQFtoMNdRDB1iDWl8ERap02WNcfHZAzylYErxx0ZCDvTuDB7vSD8nSU8auopFwUxZCZBUBgW5YB3orRKZAVoZD","421974994867254","10214004472684462",null,null,null,null,null);
+        //AccessToken accessToken=new AccessToken("EAAFZCyLWsVDYBAJYlmthkYIQmqZBeuNu6J1TkK79ulZBBZCYMfqIhEeQuPsV0cOe3ovWACMxZC2cjfVGRqQFtoMNdRDB1iDWl8ERap02WNcfHZAzylYErxx0ZCDvTuDB7vSD8nSU8auopFwUxZCZBUBgW5YB3orRKZAVoZD","421974994867254","10214004472684462",null,null,null,null,null);
+        AccessToken accessToken=new AccessToken("EAACEdEose0cBAGJxKsCaEYEB2Q2kP4t5zRyNLXgA20nJ7tM0zb3xC4hSaJOeJpR6ZA65Hsv4vMt0jZCVp0wqLgQjCEg0GinkzgyL47RT8CloV6jEGiFvctFLZCE4y0YquwZAE86XuQM6lZABxXfQZCZCIuFeE0LIhy0Mme9cAzMexhHgZB28v2ZBa6MQPIw0zfeaA5Wvdm2PFs68XUwUc0z4oW9cgFOGbhUsZD","421974994867254","100009500341520",null,null,null,null,null);
         //make the API call
         try {
             new GraphRequest(
@@ -56,14 +57,15 @@ public class FacebookRequest {
     }
 
     // Graph method to attend an event on Facebook.
-    public static void GetAttendedPersonsFromEventFromFacebook(final EventsPresenter eventsPresenter) {
+    public static void GetAttendedPersonsFromEventFromFacebook(final EventsPresenter eventsPresenter, final Context context) {
 
         Context mainContext = MainActivity.getContextMain();
         SharedPreferences shPref = mainContext.getSharedPreferences("pref",Context.MODE_PRIVATE);
         final String strIdUser = shPref.getString("UserIdFacebook", "There is no id");
 
 
-        AccessToken accessToken=new AccessToken("EAAFZCyLWsVDYBAJYlmthkYIQmqZBeuNu6J1TkK79ulZBBZCYMfqIhEeQuPsV0cOe3ovWACMxZC2cjfVGRqQFtoMNdRDB1iDWl8ERap02WNcfHZAzylYErxx0ZCDvTuDB7vSD8nSU8auopFwUxZCZBUBgW5YB3orRKZAVoZD","421974994867254","10214004472684462",null,null,null,null,null);
+        //AccessToken accessToken=new AccessToken("EAAFZCyLWsVDYBAJYlmthkYIQmqZBeuNu6J1TkK79ulZBBZCYMfqIhEeQuPsV0cOe3ovWACMxZC2cjfVGRqQFtoMNdRDB1iDWl8ERap02WNcfHZAzylYErxx0ZCDvTuDB7vSD8nSU8auopFwUxZCZBUBgW5YB3orRKZAVoZD","421974994867254","10214004472684462",null,null,null,null,null);
+        AccessToken accessToken=new AccessToken("EAACEdEose0cBAGJxKsCaEYEB2Q2kP4t5zRyNLXgA20nJ7tM0zb3xC4hSaJOeJpR6ZA65Hsv4vMt0jZCVp0wqLgQjCEg0GinkzgyL47RT8CloV6jEGiFvctFLZCE4y0YquwZAE86XuQM6lZABxXfQZCZCIuFeE0LIhy0Mme9cAzMexhHgZB28v2ZBa6MQPIw0zfeaA5Wvdm2PFs68XUwUc0z4oW9cgFOGbhUsZD","421974994867254","100009500341520",null,null,null,null,null);
         //make the API call
             new GraphRequest(
                     accessToken,
@@ -80,22 +82,11 @@ public class FacebookRequest {
 
                                 JSONArray objArray = object.getJSONArray("data");
 
-                                for (int i = 0; i < objArray.length(); i++) {
-
-                                    JSONObject objJson = (JSONObject)objArray.get(i);
-
-                                    if (objJson.getString("id").equals(strIdUser)) {
-
-                                        eventsPresenter.UpdateAssistButton();
-
-                                        break;
-                                    }
-                                }
-
-
+                                eventsPresenter.UpdateAssistButton(objArray, strIdUser, context);
                             }
                             catch (Exception ex) {
 
+                                eventsPresenter.NotifyUser("Error al obtener los asistentes del evento.", context);
                             }
 
 
@@ -107,7 +98,7 @@ public class FacebookRequest {
     }
 
 
-    public static void PostAttendEventFromFacebook(final String eventId, final Context context) {
+    public static void PostAttendEventFromFacebook(final EventsPresenter eventsPresenter, final Context context) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -129,7 +120,7 @@ public class FacebookRequest {
                 //make the API call
                 new GraphRequest(
                         accessToken,
-                        "/" + eventId + "/attending",
+                        "/" + eventsPresenter.eventHolder.idEvent.getText().toString() + "/attending",
                         null,
                         HttpMethod.POST,
                         new GraphRequest.Callback() {
@@ -145,10 +136,12 @@ public class FacebookRequest {
 
                                     if (strError.equals("(#100) User must be able to RSVP to the event.")) {
                                         //Event not available
-                                        Toast.makeText(context, "Evento caducado, ya no disponible.", Toast.LENGTH_LONG).show();
+                                        eventsPresenter.NotifyUser("Evento caducado, ya no disponible.", context);
+
                                     }
                                     else {
-                                        Toast.makeText(context, "Error al conectarse con el servidor.", Toast.LENGTH_LONG).show();
+                                        eventsPresenter.NotifyUser("Error al conectarse con el servidor.", context);
+
                                     }
                                 }
 

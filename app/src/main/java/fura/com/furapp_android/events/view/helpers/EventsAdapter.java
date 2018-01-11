@@ -114,77 +114,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
 
             //Initialization of the Presenter.
             eventsPresenter = new EventsPresenter(new EventsFragment());
+            eventsPresenter.eventHolder = this;
 
             // Listener of the button for the Attend function.
             _btn_attend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    final Context viewContext = v.getContext();
-
-
-                    eventsPresenter.AttendEvent(viewContext, idEvent.getText().toString());
-
-                    /*
-
-                    AlertDialog.Builder alertAttendBuilder = new AlertDialog.Builder(viewContext);
-                    alertAttendBuilder.setMessage(R.string.attend_event_warning);
-
-
-                    alertAttendBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //Code
-                            FirebaseAuth auth = FirebaseAuth.getInstance();
-
-                            if (auth.getCurrentUser() != null) {
-
-                                FacebookRequest.PostAttendEventFromFacebook(idEvent.getText().toString(), viewContext);
-                            }
-                            else {
-
-
-                                AlertDialog.Builder alertLoginBuilder = new AlertDialog.Builder(viewContext);
-                                alertLoginBuilder.setMessage(R.string.attend_event_login);
-
-                                alertLoginBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //Code
-                                        Intent intent_sign_in = new Intent(viewContext, SignInActivity.class);
-                                        intent_sign_in.putExtra("caller-activity", "EventsAdapter");
-                                        viewContext.startActivity(intent_sign_in);
-
-                                    }
-                                });
-
-                                alertLoginBuilder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //Code
-                                    }
-                                });
-
-
-                                AlertDialog alertLogin = alertLoginBuilder.create();
-                                alertLogin.show();
-
-                            }
-
-
-
-                        }
-                    });
-
-                    alertAttendBuilder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //Code
-                        }
-                    });
-
-                    AlertDialog alertAttendMessage = alertAttendBuilder.create();
-                    alertAttendMessage.show();
-
-                    */
+                    eventsPresenter.AttendEvent(context);
 
                 }
             });
@@ -205,24 +142,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             //Gets the object to show
             event = eventList.get(position);
 
-            //Code to disable the events already selected to attend.
-            eventsPresenter.eventHolder = viewHolder;
-            eventsPresenter.GetAttendedPersonsFromEvent();
 
-            /*
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            if (auth.getCurrentUser() != null) {
-
-                List<String> lstProviders = auth.getCurrentUser().getProviders();
-
-                if (lstProviders.contains("facebook.com")) {
-
-                    FacebookRequest.GetAttendedPersonsFromEventFromFacebook(viewHolder.idEvent.getText().toString(), viewHolder._btn_attend);
-                }
-
-            }
-            */
-            
             //Set the event properties in the view
             //Set the event's id.
             viewHolder.idEvent.setText(event.getId());
@@ -244,6 +164,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
                 viewHolder.date.setText(StringFormatter.ToDate(event.getStart_time()));
             if(event.getDescription()!=null)
                 viewHolder.description.setText(event.getDescription());
+
+
+            //Code to disable the events already selected to attend.
+            eventsPresenter.eventHolder = viewHolder;
+            eventsPresenter.GetAttendedPersonsFromEvent(context);
+
         } catch (Exception e) {}
         //Check expand state
         final boolean isExpanded=expandState.get(position);
