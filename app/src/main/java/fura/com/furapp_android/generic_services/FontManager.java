@@ -1,4 +1,4 @@
-package fura.com.furapp_android.view;
+package fura.com.furapp_android.generic_services;
 
 import android.content.Context;
 import android.graphics.Typeface;

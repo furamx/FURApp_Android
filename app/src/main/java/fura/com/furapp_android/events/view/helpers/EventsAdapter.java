@@ -25,7 +25,7 @@ import fura.com.furapp_android.generic_services.StringFormatter;
 import fura.com.furapp_android.events.model.helpers.Event;
 import fura.com.furapp_android.events.presenter.EventsPresenter;
 import fura.com.furapp_android.events.view.EventsFragment;
-import fura.com.furapp_android.view.FontManager;
+import fura.com.furapp_android.generic_services.FontManager;
 import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.MapsActivity;
 

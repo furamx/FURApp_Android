@@ -45,7 +45,7 @@ import fura.com.furapp_android.R;
 <<<<<<< HEAD
 import fura.com.furapp_android.generic_services.FacebookRequest;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
-import fura.com.furapp_android.view.FontManager;
+import fura.com.furapp_android.generic_services.FontManager;
 import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.SignInActivity;
 =======
