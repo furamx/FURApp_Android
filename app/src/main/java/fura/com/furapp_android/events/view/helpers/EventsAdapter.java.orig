@@ -43,13 +43,13 @@ import java.util.ArrayList;
 import java.util.List;
 import fura.com.furapp_android.R;
 <<<<<<< HEAD
-import fura.com.furapp_android.events.model.FacebookRequest;
+import fura.com.furapp_android.generic_services.FacebookRequest;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
 import fura.com.furapp_android.view.FontManager;
 import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.SignInActivity;
 =======
-import fura.com.furapp_android.domain.StringFormatter;
+import fura.com.furapp_android.generic_services.StringFormatter;
 import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
 import fura.com.furapp_android.view.MapsActivity;
 >>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd

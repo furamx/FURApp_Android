@@ -1,4 +1,4 @@
-package fura.com.furapp_android.events.model;
+package fura.com.furapp_android.generic_services;
 
 import android.content.Context;
 import android.content.SharedPreferences;

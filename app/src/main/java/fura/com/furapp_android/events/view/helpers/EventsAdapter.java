@@ -1,8 +1,6 @@
 package fura.com.furapp_android.events.view.helpers;
 import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
@@ -19,19 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.domain.StringFormatter;
-import fura.com.furapp_android.events.model.FacebookRequest;
+import fura.com.furapp_android.generic_services.StringFormatter;
 import fura.com.furapp_android.events.model.helpers.Event;
 import fura.com.furapp_android.events.presenter.EventsPresenter;
 import fura.com.furapp_android.events.view.EventsFragment;
 import fura.com.furapp_android.view.FontManager;
 import fura.com.furapp_android.view.MainActivity;
-import fura.com.furapp_android.view.SignInActivity;
 import fura.com.furapp_android.view.MapsActivity;
 
 /**

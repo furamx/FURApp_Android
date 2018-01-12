@@ -1,4 +1,4 @@
-package fura.com.furapp_android.domain;
+package fura.com.furapp_android.generic_services;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -15,12 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.events.model.FacebookRequest;
+import fura.com.furapp_android.generic_services.FacebookRequest;
 import fura.com.furapp_android.events.model.helpers.Event;
 import fura.com.furapp_android.events.model.helpers.EventRoot;
 import fura.com.furapp_android.events.view.EventsFragment;
 import fura.com.furapp_android.events.view.helpers.EventsAdapter;
-import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.SignInActivity;
 
 /**
