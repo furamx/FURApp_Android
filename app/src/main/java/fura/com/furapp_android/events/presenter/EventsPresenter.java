@@ -198,7 +198,7 @@ public class EventsPresenter {
 
         }
         catch (Exception ex) {
-            eventsInterface.notifyUser("Error al desplegar los eventos.", context);
+            eventsInterface.notifyUser(context.getString(R.string.display_events_error), context);
         }
 
     }
