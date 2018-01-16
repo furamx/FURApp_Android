@@ -21,11 +21,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.generic_services.StringFormatter;
+import fura.com.furapp_android.events.view.EventsInterface;
+import fura.com.furapp_android.generic_helpers.StringFormatter;
 import fura.com.furapp_android.events.model.helpers.Event;
 import fura.com.furapp_android.events.presenter.EventsPresenter;
 import fura.com.furapp_android.events.view.EventsFragment;
-import fura.com.furapp_android.generic_services.FontManager;
+import fura.com.furapp_android.generic_helpers.FontManager;
 import fura.com.furapp_android.view.MainActivity;
 import fura.com.furapp_android.view.MapsActivity;
 
@@ -46,11 +47,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
     //endregion
 
     //region CLASS CONSTRUCTORS
-    public EventsAdapter(Context context){
+    public EventsAdapter(Context context, EventsPresenter eventsPresenter){
         //Get the context
         this.context=context;
         //Initialize the list of events
         this.eventList=new ArrayList<>();
+        //Get the eventsPresenter with the interface initialized.
+        this.eventsPresenter = eventsPresenter;
     }
     //endregion
 
@@ -107,8 +110,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             Typeface iconFont = FontManager.getTypeface(mainContext, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(attend_layout, iconFont);
 
-            //Initialization of the Presenter.
-            eventsPresenter = new EventsPresenter(new EventsFragment());
+            //Set the current eventHolder to check if the user already checked the event.
             eventsPresenter.eventHolder = this;
 
             // Listener of the button for the Attend function.
@@ -137,29 +139,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             //Gets the object to show
             event = eventList.get(position);
 
-
-            //Set the event properties in the view
-            //Set the event's id.
-            viewHolder.idEvent.setText(event.getId());
-            if(event.getCover()!=null)
-                Picasso.with(context).load(event.getCover().getSource()).into(viewHolder.cover);
-            if(event.getName()!=null)
-                viewHolder.name.setText(event.getName());
-            if(event.getPlace().getLocation()!=null){
-                viewHolder.city.setText(event.getPlace().getLocation().getCity());
-                viewHolder.street.setText(event.getPlace().getLocation().getStreet());
-            }
-            if(event.getStart_time()!=null)
-                viewHolder.start_time.setText(context.getString(R.string.start_label)+"  "+StringFormatter.ToHour(event.getStart_time()));
-            if(event.getEnd_time()!=null)
-                viewHolder.end_time.setText(context.getString(R.string.end_label)+"  "+StringFormatter.ToHour(event.getEnd_time()));
-            if(event.getPlace()!=null)
-                viewHolder.location.setText(event.getPlace().getName());
-            if(event.getStart_time()!=null)
-                viewHolder.date.setText(StringFormatter.ToDate(event.getStart_time()));
-            if(event.getDescription()!=null)
-                viewHolder.description.setText(event.getDescription());
-
+            //Display the contents in the Fragment.
+            eventsPresenter.DisplayEventsData(event, context);
 
             //Code to disable the events already selected to attend.
             eventsPresenter.eventHolder = viewHolder;

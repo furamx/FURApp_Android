@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.generic_services.FacebookRequest;
+import fura.com.furapp_android.events.model.EventsDataView;
 import fura.com.furapp_android.events.model.helpers.Event;
 import fura.com.furapp_android.events.model.helpers.EventRoot;
+import fura.com.furapp_android.events.services.EventsService;
 import fura.com.furapp_android.events.view.EventsFragment;
+import fura.com.furapp_android.events.view.EventsInterface;
 import fura.com.furapp_android.events.view.helpers.EventsAdapter;
 import fura.com.furapp_android.view.SignInActivity;
 
@@ -28,26 +30,26 @@ import fura.com.furapp_android.view.SignInActivity;
 public class EventsPresenter {
 
     //region GLOBAL FIELDS
-    private EventsFragment eventsFragment;
+    private EventsInterface eventsInterface;
     private List<Event> eventList;
     public EventsAdapter.MyViewHolder eventHolder;
     //endregion
 
     //region CLASS CONSTRUCTORS
-    public EventsPresenter(EventsFragment _eventsFragment){
-        this.eventsFragment=_eventsFragment;
+    public EventsPresenter(EventsInterface eventsInterface){
+        this.eventsInterface = eventsInterface;
     }
     //endregion
 
     //region EVENTS METHODS
     public void UpdateEvents(){
-        FacebookRequest.GetEventsFromFacebook(this);
+        EventsService.GetEventsFromFacebook(this);
     }
 
     public void SetEvents(EventRoot _eventRoot){
         eventList=new ArrayList<>();
         eventList=_eventRoot.getData();
-        eventsFragment.UpdateAdapter(eventList);
+        eventsInterface.updateAdapter(eventList);
     }
 
     public void AttendEvent(final Context _context) {
@@ -64,7 +66,7 @@ public class EventsPresenter {
 
                 if (auth.getCurrentUser() != null) {
 
-                    FacebookRequest.PostAttendEventFromFacebook(presenter, _context);
+                    EventsService.PostAttendEventFromFacebook(presenter, _context);
                 }
                 else {
 
@@ -120,7 +122,7 @@ public class EventsPresenter {
 
             if (lstProviders.contains("facebook.com")) {
 
-                FacebookRequest.GetAttendedPersonsFromEventFromFacebook(this, context);
+                EventsService.GetAttendedPersonsFromEventFromFacebook(this, context);
             }
 
         }
@@ -138,7 +140,7 @@ public class EventsPresenter {
 
                 if (objJson.getString("id").equals(strIdUser)) {
 
-                    eventsFragment.UpdateAssistButton(eventHolder);
+                    eventsInterface.updateAssistButton(eventHolder);
 
                     break;
                 }
@@ -147,7 +149,7 @@ public class EventsPresenter {
         }
         catch (Exception ex) {
 
-            eventsFragment.NotifyUser("Error al administrar eventos a asistir.", context);
+            eventsInterface.notifyUser("Error al administrar eventos a asistir.", context);
         }
 
     }
@@ -155,8 +157,51 @@ public class EventsPresenter {
     //Method to notify the user possible errors trying to do an operation.
     public void NotifyUser(String strMessage, Context context) {
 
-        eventsFragment.NotifyUser(strMessage, context);
+        eventsInterface.notifyUser(strMessage, context);
 
     }
+
+    //Method to prepare the data to be displayed.
+    public void DisplayEventsData(Event event, Context context) {
+
+        try {
+            EventsDataView eventsDataView = new EventsDataView(event, context);
+
+            eventsInterface.displayDataTextView(eventsDataView.getEventId(), eventHolder.idEvent);
+
+            if (!eventsDataView.getCoverSource().equals(""))
+                eventsInterface.displayCoverImageView(eventsDataView.getCoverSource(), eventHolder.cover, context);
+
+            if (!eventsDataView.getEventName().equals(""))
+                eventsInterface.displayDataTextView(eventsDataView.getEventName(), eventHolder.name);
+
+            if (!eventsDataView.getPlaceName().equals(""))
+                eventsInterface.displayDataTextView(eventsDataView.getPlaceName(), eventHolder.location);
+
+            if (!eventsDataView.getCity().equals(""))
+                eventsInterface.displayDataTextView(eventsDataView.getCity(), eventHolder.city);
+
+            if (!eventsDataView.getStreet().equals(""))
+                eventsInterface.displayDataTextView(eventsDataView.getStreet(), eventHolder.street);
+
+            if (!eventsDataView.getStartTime().equals(""))
+                eventsInterface.displayDataTextView(eventsDataView.getStartTime(), eventHolder.start_time);
+
+            if (!eventsDataView.getDate().equals(""))
+                eventsInterface.displayDataTextView(eventsDataView.getDate(), eventHolder.date);
+
+            if (!eventsDataView.getEndTime().equals(""))
+                eventsInterface.displayDataTextView(eventsDataView.getEndTime(), eventHolder.end_time);
+
+            if (!eventsDataView.getDescription().equals(""))
+                eventsInterface.displayDataTextView(eventsDataView.getEndTime(), eventHolder.description);
+
+        }
+        catch (Exception ex) {
+            eventsInterface.notifyUser("Error al desplegar los eventos.", context);
+        }
+
+    }
+
     //endregion
 }
