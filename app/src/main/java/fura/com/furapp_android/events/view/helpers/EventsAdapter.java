@@ -1,9 +1,6 @@
-package fura.com.furapp_android.view.helpers;
+package fura.com.furapp_android.events.view.helpers;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
@@ -20,23 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.google.firebase.auth.FirebaseAuth;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.domain.StringFormatter;
-import fura.com.furapp_android.model.FacebookRequest;
-import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
-import fura.com.furapp_android.view.FontManager;
+import fura.com.furapp_android.events.view.EventsInterface;
+import fura.com.furapp_android.generic_helpers.StringFormatter;
+import fura.com.furapp_android.events.model.helpers.Event;
+import fura.com.furapp_android.events.presenter.EventsPresenter;
+import fura.com.furapp_android.events.view.EventsFragment;
+import fura.com.furapp_android.generic_helpers.FontManager;
 import fura.com.furapp_android.view.MainActivity;
-import fura.com.furapp_android.view.SignInActivity;
 import fura.com.furapp_android.view.MapsActivity;
 
 /**
@@ -47,6 +38,7 @@ import fura.com.furapp_android.view.MapsActivity;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
 
     //region GLOBAL FIELDS
+    private EventsPresenter eventsPresenter;
     private Context context;
     public List<Event> eventList;
     private Event event;
@@ -55,11 +47,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
     //endregion
 
     //region CLASS CONSTRUCTORS
-    public EventsAdapter(Context context){
+    public EventsAdapter(Context context, EventsPresenter eventsPresenter){
         //Get the context
         this.context=context;
         //Initialize the list of events
         this.eventList=new ArrayList<>();
+        //Get the eventsPresenter with the interface initialized.
+        this.eventsPresenter = eventsPresenter;
     }
     //endregion
 
@@ -116,71 +110,15 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             Typeface iconFont = FontManager.getTypeface(mainContext, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(attend_layout, iconFont);
 
+            //Set the current eventHolder to check if the user already checked the event.
+            eventsPresenter.eventHolder = this;
+
             // Listener of the button for the Attend function.
             _btn_attend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    final Context viewContext = v.getContext();
-
-
-                    AlertDialog.Builder alertAttendBuilder = new AlertDialog.Builder(viewContext);
-                    alertAttendBuilder.setMessage(R.string.attend_event_warning);
-
-
-                    alertAttendBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //Code
-                            FirebaseAuth auth = FirebaseAuth.getInstance();
-
-                            if (auth.getCurrentUser() != null) {
-
-                                FacebookRequest.PostAttendEventFromFacebook(idEvent.getText().toString(), viewContext);
-                            }
-                            else {
-
-
-                                AlertDialog.Builder alertLoginBuilder = new AlertDialog.Builder(viewContext);
-                                alertLoginBuilder.setMessage(R.string.attend_event_login);
-
-                                alertLoginBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //Code
-                                        Intent intent_sign_in = new Intent(viewContext, SignInActivity.class);
-                                        intent_sign_in.putExtra("caller-activity", "EventsAdapter");
-                                        viewContext.startActivity(intent_sign_in);
-
-                                    }
-                                });
-
-                                alertLoginBuilder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //Code
-                                    }
-                                });
-
-
-                                AlertDialog alertLogin = alertLoginBuilder.create();
-                                alertLogin.show();
-
-                            }
-
-
-
-                        }
-                    });
-
-                    alertAttendBuilder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //Code
-                        }
-                    });
-
-                    AlertDialog alertAttendMessage = alertAttendBuilder.create();
-                    alertAttendMessage.show();
-
+                    eventsPresenter.AttendEvent(context);
 
                 }
             });
@@ -201,40 +139,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
             //Gets the object to show
             event = eventList.get(position);
 
+            //Display the contents in the Fragment.
+            eventsPresenter.DisplayEventsData(event, context);
+
             //Code to disable the events already selected to attend.
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            if (auth.getCurrentUser() != null) {
+            eventsPresenter.eventHolder = viewHolder;
+            eventsPresenter.GetAttendedPersonsFromEvent(context);
 
-                List<String> lstProviders = auth.getCurrentUser().getProviders();
-
-                if (lstProviders.contains("facebook.com")) {
-
-                    FacebookRequest.GetAttendedPersonsFromEventFromFacebook(viewHolder.idEvent.getText().toString(), viewHolder._btn_attend);
-                }
-
-            }
-            
-            //Set the event properties in the view
-            //Set the event's id.
-            viewHolder.idEvent.setText(event.getId());
-            if(event.getCover()!=null)
-                Picasso.with(context).load(event.getCover().getSource()).into(viewHolder.cover);
-            if(event.getName()!=null)
-                viewHolder.name.setText(event.getName());
-            if(event.getPlace().getLocation()!=null){
-                viewHolder.city.setText(event.getPlace().getLocation().getCity());
-                viewHolder.street.setText(event.getPlace().getLocation().getStreet());
-            }
-            if(event.getStart_time()!=null)
-                viewHolder.start_time.setText(context.getString(R.string.start_label)+"  "+StringFormatter.ToHour(event.getStart_time()));
-            if(event.getEnd_time()!=null)
-                viewHolder.end_time.setText(context.getString(R.string.end_label)+"  "+StringFormatter.ToHour(event.getEnd_time()));
-            if(event.getPlace()!=null)
-                viewHolder.location.setText(event.getPlace().getName());
-            if(event.getStart_time()!=null)
-                viewHolder.date.setText(StringFormatter.ToDate(event.getStart_time()));
-            if(event.getDescription()!=null)
-                viewHolder.description.setText(event.getDescription());
         } catch (Exception e) {}
         //Check expand state
         final boolean isExpanded=expandState.get(position);

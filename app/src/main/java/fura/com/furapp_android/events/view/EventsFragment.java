@@ -1,4 +1,6 @@
-package fura.com.furapp_android.view;
+package fura.com.furapp_android.events.view;
+import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,14 +11,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import fura.com.furapp_android.R;
-import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
-import fura.com.furapp_android.presenter.EventsPresenter;
-import fura.com.furapp_android.view.helpers.EventsAdapter;
+import fura.com.furapp_android.events.model.EventsDataView;
+import fura.com.furapp_android.events.model.helpers.Event;
+import fura.com.furapp_android.events.presenter.EventsPresenter;
+import fura.com.furapp_android.events.view.helpers.EventsAdapter;
 
-public class EventsFragment extends Fragment {
+public class EventsFragment extends Fragment implements EventsInterface {
 
     //region GLOBAL FIELDS
     private RecyclerView recyclerView;
@@ -27,7 +35,7 @@ public class EventsFragment extends Fragment {
     //region CLASS CONSTRUCTORS
     //Initialize the presenter with this fragment
     public EventsFragment(){
-        eventsPresenter=new EventsPresenter(this);
+        eventsPresenter = new EventsPresenter(this);
     }
     //endregion
 
@@ -45,7 +53,7 @@ public class EventsFragment extends Fragment {
         recyclerView= view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         // Initialize adapter to show events information
-        adapter =new EventsAdapter(getContext());
+        adapter =new EventsAdapter(getContext(), eventsPresenter);
         //Create the layout to the event cards
         final LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -57,16 +65,36 @@ public class EventsFragment extends Fragment {
         return view;
     }
 
-<<<<<<< HEAD
-
-    // Gets event list, asign it to the adapter and refresh the view
-=======
+    //region Implementation of the interface EventsInterface
     // Gets event list, assign it to the adapter and refresh the view
->>>>>>> e3f16bf5d25e50b4a1f0fabfff4bb07d2de23cbd
-    public void UpdateAdapter(List<Event> _events) {
+    @Override
+    public void updateAdapter(List<Event> _events) {
         adapter.eventList = _events;
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void updateAssistButton(EventsAdapter.MyViewHolder eventHolder) {
+        eventHolder._btn_attend.setBackgroundColor(Color.GREEN);
+        eventHolder._btn_attend.setText(R.string.attend_button_check);
+        eventHolder._btn_attend.setEnabled(false);
+    }
+
+    @Override
+    public void notifyUser(String strMessage, Context context) {
+        Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void displayDataTextView(String strData, TextView view) {
+        view.setText(strData);
+    }
+
+    @Override
+    public void displayCoverImageView(String strSource, ImageView view, Context context) {
+        Picasso.with(context).load(strSource).into(view);
+    }
+    //endregion
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

@@ -1,8 +1,6 @@
-package fura.com.furapp_android.model.dataModels.EventHelpers;
+package fura.com.furapp_android.events.model.helpers;
 
 import java.util.List;
-
-import fura.com.furapp_android.model.dataModels.EventHelpers.Event;
 
 /**
  * Created by ramon on 22/11/17.

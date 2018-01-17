@@ -23,5 +23,11 @@
     <string name="attend_button_check">&#xf00c;</string>
     <string name="attend_event_warning">¿Desea asistir al evento seleccionado?</string>
     <string name="attend_event_login">No ha iniciado sesión en Facebook, ¿desea iniciar en Facebook para asistir al evento?</string>
+    <string name="attend_event_attended_error">Error al obtener los asistentes del evento.</string>
+    <string name="attend_event_not_available">Evento caducado, ya no disponible.</string>
+    <string name="attend_event_error">Error al conectarse con el servidor.</string>
+
+    <!-- OTHER MESSAGES -->
+    <string name="display_events_error">Error al desplegar los eventos.</string>
 
 </resources>
