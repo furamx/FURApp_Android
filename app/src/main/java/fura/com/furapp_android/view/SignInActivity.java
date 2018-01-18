@@ -187,11 +187,8 @@ public class SignInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-
-
                             //Successful code.
-                            Intent intent = new Intent(contextSignIn, MainActivity.class);
-                            startActivity(intent);
+                            setResult(RESULT_OK, null);
                             finish();
 
                         } else {

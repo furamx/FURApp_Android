@@ -12,6 +12,8 @@ import android.view.View.OnClickListener;
 
 import fura.com.furapp_android.R;
 
+import static android.app.Activity.RESULT_OK;
+
 public class BottomLoginFragment extends Fragment {
 
     @Override
@@ -25,7 +27,7 @@ public class BottomLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent_sign_in = new Intent(getContext(), SignInActivity.class);
-                startActivity(intent_sign_in);
+                startActivityForResult(intent_sign_in, 1);
             }
         });
         return view;
