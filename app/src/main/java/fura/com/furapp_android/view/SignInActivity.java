@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -40,6 +41,12 @@ public class SignInActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private CallbackManager callbackManager;
 
+    //Password login button.
+    private Button btnLoginPassword;
+
+    //Loading text.
+    private TextView txtLoading;
+
     //Firebase variable authenticate.
     private FirebaseAuth auth;
 
@@ -56,8 +63,11 @@ public class SignInActivity extends AppCompatActivity {
         contextSignIn = getApplicationContext();
 
         //Button for password authentication.
-        Button btnLoginPassword = (Button) findViewById(R.id.btn_login_password);
+        btnLoginPassword = (Button) findViewById(R.id.btn_login_password);
 
+
+        //Loading TextView
+        txtLoading = (TextView) findViewById(R.id.txv_loading_text);
 
         //Initialization for the Login Button.
         callbackManager = CallbackManager.Factory.create();
@@ -72,7 +82,11 @@ public class SignInActivity extends AppCompatActivity {
             loginButton.performClick();
         }
         else {
+            //Make invisible the login buttons to prevent bugs.
             btnLoginPassword.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
+
+            txtLoading.setVisibility(View.GONE);
         }
 
 
@@ -82,6 +96,12 @@ public class SignInActivity extends AppCompatActivity {
 
                 //Saving the access token and user id from the user for later use.
                 saveTokenAndUserId(loginResult.getAccessToken().getToken(), loginResult.getAccessToken().getUserId());
+
+                //Make invisible the login buttons to prevent bugs.
+                btnLoginPassword.setVisibility(View.GONE);
+                loginButton.setVisibility(View.GONE);
+
+                txtLoading.setVisibility(View.VISIBLE);
 
                 //Use Facebook access token to authenticate with Firebase.
                 authenticateToFirebase(loginResult.getAccessToken());
@@ -176,6 +196,7 @@ public class SignInActivity extends AppCompatActivity {
 
                         } else {
                             //Unsuccessful code.
+                            showSnackbar(R.string.unknown_sign_in_response);
                         }
 
                     }

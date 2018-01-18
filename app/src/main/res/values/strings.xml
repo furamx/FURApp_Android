@@ -18,6 +18,7 @@
     <string name="marker_message">Aquí es</string>
     <string name="location_no_available">No hay una ubicación para mostrar</string>
     <string name="continuew_with_email">Continuar con mi correo</string>
+    <string name="loading_message">Cargando ...</string>
     
     <!-- ATTEND EVENT -->
     <string name="attend_button_check">&#xf00c;</string>
