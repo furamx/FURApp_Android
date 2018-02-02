@@ -1,6 +1,7 @@
 package fura.com.furapp_android.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
@@ -137,5 +138,15 @@ public class MainActivity extends AppCompatActivity implements
     public static Context getContextMain() {
 
         return contextMain;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);
+            finish();
+        }
     }
 }

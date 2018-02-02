@@ -1,5 +1,6 @@
 package fura.com.furapp_android.events.presenter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -77,10 +78,12 @@ public class EventsPresenter {
                     alertLoginBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //Code
+
+                            //Go to login page.
                             Intent intent_sign_in = new Intent(_context, SignInActivity.class);
                             intent_sign_in.putExtra("caller-activity", "EventsAdapter");
-                            _context.startActivity(intent_sign_in);
+                            ((Activity) _context).startActivityForResult(intent_sign_in, 1);
+
 
                         }
                     });

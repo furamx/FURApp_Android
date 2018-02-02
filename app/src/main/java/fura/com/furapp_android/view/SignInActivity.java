@@ -1,23 +1,20 @@
 package fura.com.furapp_android.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
@@ -29,18 +26,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import fura.com.furapp_android.R;
 
@@ -54,6 +40,12 @@ public class SignInActivity extends AppCompatActivity {
     //Login Button and CallbackManager for writing permissions (for the events).
     private LoginButton loginButton;
     private CallbackManager callbackManager;
+
+    //Password login button.
+    private Button btnLoginPassword;
+
+    //Loading text.
+    private TextView txtLoading;
 
     //Firebase variable authenticate.
     private FirebaseAuth auth;
@@ -71,8 +63,11 @@ public class SignInActivity extends AppCompatActivity {
         contextSignIn = getApplicationContext();
 
         //Button for password authentication.
-        Button btnLoginPassword = (Button) findViewById(R.id.btn_login_password);
+        btnLoginPassword = (Button) findViewById(R.id.btn_login_password);
 
+
+        //Loading TextView
+        txtLoading = (TextView) findViewById(R.id.txv_loading_text);
 
         //Initialization for the Login Button.
         callbackManager = CallbackManager.Factory.create();
@@ -87,7 +82,11 @@ public class SignInActivity extends AppCompatActivity {
             loginButton.performClick();
         }
         else {
+            //Make invisible the login buttons to prevent bugs.
             btnLoginPassword.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
+
+            txtLoading.setVisibility(View.GONE);
         }
 
 
@@ -97,6 +96,12 @@ public class SignInActivity extends AppCompatActivity {
 
                 //Saving the access token and user id from the user for later use.
                 saveTokenAndUserId(loginResult.getAccessToken().getToken(), loginResult.getAccessToken().getUserId());
+
+                //Make invisible the login buttons to prevent bugs.
+                btnLoginPassword.setVisibility(View.GONE);
+                loginButton.setVisibility(View.GONE);
+
+                txtLoading.setVisibility(View.VISIBLE);
 
                 //Use Facebook access token to authenticate with Firebase.
                 authenticateToFirebase(loginResult.getAccessToken());
@@ -144,15 +149,13 @@ public class SignInActivity extends AppCompatActivity {
 
             // Successfully signed in
             if (resultCode == RESULT_OK) {
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                setResult(RESULT_OK, null);
                 finish();
                 return;
             } else {
                 // Sign in failed
                 if (response == null) {
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
+                    setResult(RESULT_OK, null);
                     finish();
                     return;
                 }
@@ -187,15 +190,13 @@ public class SignInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-
-
                             //Successful code.
-                            Intent intent = new Intent(contextSignIn, MainActivity.class);
-                            startActivity(intent);
+                            setResult(RESULT_OK, null);
                             finish();
 
                         } else {
                             //Unsuccessful code.
+                            showSnackbar(R.string.unknown_sign_in_response);
                         }
 
                     }
